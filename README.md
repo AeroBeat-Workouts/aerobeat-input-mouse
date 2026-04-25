@@ -9,7 +9,7 @@ Input Drivers bridge hardware (Webcams, VR Controllers, Smart Watches) to the Ae
 *   **Type:** Input Driver
 *   **License:** **Mozilla Public License 2.0 (MPL 2.0)**
 *   **Dependencies:**
-    *   `aerobeat-core` (Required)
+    *   `aerobeat-input-core` (Canonical shared input contract)
     *   `aerobeat-vendor-*` (Allowed)
 
 ## GodotEnv development flow
@@ -33,7 +33,7 @@ cd .testbed
 godotenv addons install
 ```
 
-That installs the pinned `aerobeat-core` foundation plus GUT into `.testbed/addons/`.
+That restores this repo's current dev/test manifest into `.testbed/addons/`. In the lane-based architecture, Input repos should describe this dependency as `aerobeat-input-core`.
 
 ### Open the workbench
 
@@ -67,6 +67,6 @@ godot --headless --path .testbed --script addons/gut/gut_cmdln.gd \
 ### Validation notes
 
 - `.testbed/addons.jsonc` is the committed dev/test dependency contract.
-- The manifest pins `aerobeat-core` to `v0.1.0` and GUT to `main`.
+- The current manifest still pins the transition-era `aerobeat-core` package key to `v0.1.0` alongside GUT `main`. Canonical lane ownership is `aerobeat-input-core`.
 - Repo-local unit tests live under `.testbed/tests/`; this repo's current package payload is rooted at `/`, so the workbench does not ship a `.testbed/src` bridge for this subset.
 - The current package shape is consumed from the repo root (`subfolder: "/"`) for downstream installs.

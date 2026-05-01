@@ -1,13 +1,16 @@
 # AeroBeat Input Driver - Mouse
 
-This is the official Input Driver for AeroBeat's Mouse support.
+This repo preserves AeroBeat's mouse input driver as a future-facing input path and a valid PC pointer path for UI/menu navigation.
 
-Input Drivers bridge hardware (Webcams, VR Controllers, Smart Watches) to the AeroBeat Core contracts.
+Mouse is **not** an official AeroBeat v1 gameplay input. The current official gameplay path is **camera-first** for **Boxing** and **Flow**. In practice, this repo should be treated as a future/deprioritized gameplay-input lane while remaining truthful about mouse being useful for desktop navigation, menus, and related test/dev workflows.
+
+Input Drivers bridge hardware and device-specific signals to the AeroBeat input contracts.
 
 ## 📋 Repository Details
 
 *   **Type:** Input Driver
 *   **License:** **Mozilla Public License 2.0 (MPL 2.0)**
+*   **Current v1 scope:** Future/deprioritized gameplay-input lane; valid for PC UI/menu navigation
 *   **Dependencies:**
     *   `aerobeat-input-core` (Canonical shared input contract)
     *   `aerobeat-vendor-*` (Allowed)
@@ -33,7 +36,7 @@ cd .testbed
 godotenv addons install
 ```
 
-That restores this repo's current dev/test manifest into `.testbed/addons/`. In the lane-based architecture, Input repos should describe this dependency as `aerobeat-input-core`.
+That restores this repo's current dev/test manifest into `.testbed/addons/`. In the lane-based architecture, input repos should depend on `aerobeat-input-core`, not the older transition-era `aerobeat-core` key.
 
 ### Open the workbench
 
@@ -67,6 +70,7 @@ godot --headless --path .testbed --script addons/gut/gut_cmdln.gd \
 ### Validation notes
 
 - `.testbed/addons.jsonc` is the committed dev/test dependency contract.
-- The current manifest still pins the transition-era `aerobeat-core` package key to `v0.1.0` alongside GUT `main`. Canonical lane ownership is `aerobeat-input-core`.
+- The current manifest should pin `aerobeat-input-core` for the lane contract alongside GUT.
 - Repo-local unit tests live under `.testbed/tests/`; this repo's current package payload is rooted at `/`, so the workbench does not ship a `.testbed/src` bridge for this subset.
 - The current package shape is consumed from the repo root (`subfolder: "/"`) for downstream installs.
+- Keep product wording truthful: mouse remains fine for PC UI/menu navigation, but official v1 gameplay input is camera-only.

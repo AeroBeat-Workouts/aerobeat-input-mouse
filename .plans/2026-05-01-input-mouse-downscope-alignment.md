@@ -73,7 +73,7 @@ The key distinction for this repo is now explicit: mouse is still a legitimate d
 
 **Commits:**
 - `a4d963c` - Truth-align mouse input repo scope
-- Pending audit commit for plan update + committed test UID sidecar
+- `f930499` - Audit mouse input downscope bead
 
 **Lessons Learned:** Even the light future-input repos still carried stale truth in both human-facing docs and dev/test manifests. Also, for these GodotEnv repos, a generated test-script `.uid` sidecar can be part of the truthful source state rather than disposable noise; repo cleanliness after validation depends on making that call explicitly.
 

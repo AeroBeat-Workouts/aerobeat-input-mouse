@@ -1,7 +1,7 @@
 # aerobeat-input-mouse
 
 **Date:** 2026-05-01  
-**Status:** In Progress  
+**Status:** Complete  
 **Agent:** Chip 🐱‍💻
 
 ---
@@ -57,20 +57,27 @@ The key distinction for this repo is now explicit: mouse is still a legitimate d
 
 **Results:** Claimed bead `oc-1av` and completed the repo-local truth pass. Updated `README.md` to make the scope distinction explicit: mouse is preserved as a future/deprioritized gameplay-input lane while remaining valid for PC UI/menu navigation. Updated `plugin.cfg` to use truthful product wording and bumped the version to `0.1.1` for the metadata pass. Replaced the stale transition-era `aerobeat-core` testbed dependency with `aerobeat-input-core` in `.testbed/addons.jsonc`. Expanded the repo-local GUT test to assert the truthful plugin wording and the lane-correct manifest key. Validated by running `godotenv addons install`, `godot --headless --path .testbed --import`, and the GUT suite; all three tests passed. Changes were checked against the downscoped docs truth in `REF-04` and `REF-05`.
 
+**QA Findings (2026-05-01):** Independent QA reran the full repo validation flow (`godotenv addons install`, `godot --headless --path .testbed --import`, and the GUT suite) and confirmed the coder handoff is directionally correct against `REF-04` and `REF-05`. README, `plugin.cfg`, `.testbed/addons.jsonc`, and `.testbed/tests/test_example.gd` all align on the intended truth split: mouse remains valid for PC UI/menu navigation, while official v1 gameplay stays camera-first and mouse is not presented as parity gameplay input. The manifest now uses `aerobeat-input-core` as required. One repo-local validation artifact was generated during QA (`.testbed/tests/test_example.gd.uid`); treat it as a cleanup candidate unless this repo intentionally tracks Godot UID sidecars for test scripts. Attempted a non-closing `bd update` to attach QA notes, but it failed with a repo identity mismatch (`metadata.json project_id` ≠ database `_project_id`), so the bead was left open and no override was forced.
+
+**Auditor Findings (2026-05-01):** Independent audit pass. Re-read `REF-04` and `REF-05`, re-verified `README.md`, `plugin.cfg`, `.testbed/addons.jsonc`, and `.testbed/tests/test_example.gd`, and reran the full validation flow: `godotenv addons install`, `godot --headless --path .testbed --import`, and the GUT suite. All checks passed again (3/3 tests). The only persistent post-validation dirt was `.testbed/tests/test_example.gd.uid`. Based on the AeroBeat GodotEnv contract (`aerobeat-docs/docs/architecture/godotenv-convention-contract.md`, section 6.3 / 7.2) and the broader UID hygiene guidance, that generated sidecar is the truthful canonical repo state and should be committed rather than deleted. Bead closure required a Beads identity-check override because this repo currently reports a `metadata.json` vs database project-id mismatch even though `bd context --json` still resolves to this repo-local `.beads` directory.
+
 ---
 
 ## Final Results
 
 **Status:** ✅ Complete
 
-**What We Built:** A light truth pass for `aerobeat-input-mouse` that now presents mouse support as a valid PC UI/menu navigation path and future-facing input lane, without implying current official gameplay parity.
+**What We Built:** A truthful downscope alignment for `aerobeat-input-mouse` plus independent QA/audit confirmation. The repo now presents mouse support as a valid PC UI/menu navigation path and future-facing input lane without implying current official gameplay parity, and its repo-local validation surfaces match that story.
 
-**Reference Check:** Satisfied `REF-04` by making the navigation-vs-gameplay split explicit and removing the old `aerobeat-core` lane wording from the testbed manifest. Satisfied `REF-05` by keeping the repo aligned to the narrower camera-first Boxing/Flow v1 product claim.
+**Reference Check:** Satisfied `REF-04` by making the navigation-vs-gameplay split explicit and keeping the manifest/tests pinned to the `aerobeat-input-core` lane instead of the old `aerobeat-core` key. Satisfied `REF-05` by keeping the repo aligned to the narrower camera-first Boxing/Flow v1 product claim.
 
 **Commits:**
-- Pending commit/push in this subtask handoff step.
+- `a4d963c` - Truth-align mouse input repo scope
+- Pending audit commit for plan update + committed test UID sidecar
 
-**Lessons Learned:** Even the light future-input repos still carried stale truth in both human-facing docs and dev/test manifests. The safest small pass is README + `plugin.cfg` + `.testbed/addons.jsonc` + a small regression test so the wording drift does not immediately return.
+**Lessons Learned:** Even the light future-input repos still carried stale truth in both human-facing docs and dev/test manifests. Also, for these GodotEnv repos, a generated test-script `.uid` sidecar can be part of the truthful source state rather than disposable noise; repo cleanliness after validation depends on making that call explicitly.
+
+**Follow-up Notes:** Repo content and validation are now complete for this bead, but the repo-local Beads metadata/database project-id mismatch should be cleaned up separately so future `bd update` / `bd close` calls do not require `BEADS_SKIP_IDENTITY_CHECK=1`.
 
 ---
 
